@@ -3,10 +3,13 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Ticket;
+use App\Models\Account;
+use App\Models\NextOfKin;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -18,10 +21,20 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'firstName',
+        'lastName',
+        'address1',
+        'city',
+        'state',
+        'postalCode',
+        'dateOfBirth',
+        'ssn',
+        'dwollaCustomerUrl',
+        'dwollaCustomerId',
         'email',
         'password',
     ];
+    
 
     /**
      * The attributes that should be hidden for serialization.
@@ -30,6 +43,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
+        'ssn',
         'remember_token',
     ];
 
@@ -42,4 +56,19 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function accounts()
+    {
+        return $this->hasMany(Account::class);
+    }
+
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class);
+    }
+
+    public function next()
+    {
+        return $this->hasOne(NextOfKin::class);
+    }
 }
