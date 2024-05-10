@@ -13,13 +13,11 @@ return new class extends Migration
     {
         Schema::create('supports', function (Blueprint $table) {
             $table->id();
-            $table->integer('id', true);
             $table->text('subject');
             $table->string('priority', 8);
             $table->text('message');
             $table->integer('status');
             $table->integer('user_id');
-            $table->integer('ticket_id');
             $table->timestamps();
         });
     }

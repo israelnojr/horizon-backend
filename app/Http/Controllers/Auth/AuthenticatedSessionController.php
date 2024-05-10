@@ -22,7 +22,7 @@ class AuthenticatedSessionController extends Controller
         $user->tokens()->delete();
 
         $token = $user->createToken('api-token');
-
+        
         return response()->json([
             'user' => $user,
             'token' => $token->plainTextToken

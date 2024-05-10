@@ -22,13 +22,27 @@ class RegisteredUserController extends Controller
     public function store(Request $request): JsonResponse
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'firstName' => ['required', 'string', 'max:255'],
+            'lastName'  => ['required','string', 'max:255'],
+            'address1'  => ['required','string', 'max:255'],
+            'city'  => ['required','string', 'max:255'],
+            'state'  => ['required','string', 'max:255'],
+            'postalCode'  => ['required','string'],
+            'dateOfBirth'  => ['required','string'],
+            'ssn'  => ['required','string'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $user = User::create([
-            'name' => $request->name,
+            'firstName' => $request->firstName,
+            'lastName' => $request->lastName,
+            'city' => $request->city,
+            'state' => $request->state,
+            'address1' =>$request->address1,
+            'postalCode' => $request->postalCode,
+            'dateOfBirth' => $request->dateOfBirth,
+            'ssn' => $request->ssn,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
@@ -36,15 +50,8 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
-        
-        $token = $user->createToken('api-token');
-
         return response()->json([
-            'user' => $user,
-            'token' => $token->plainTextToken
+            'message' => 'User created successfully',
         ]);
-
-        $token = "SbCyFH50wRXpMnf2AwBrOCBJI2eureQTHnrIJAnR061dac0c";
-        // SbCyFH50wRXpMnf2AwBrOCBJI2eureQTHnrIJAnR061dac0c
     }
 }
