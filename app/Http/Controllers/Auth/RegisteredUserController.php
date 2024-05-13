@@ -42,6 +42,8 @@ class RegisteredUserController extends Controller
             'address1' =>$request->address1,
             'postalCode' => $request->postalCode,
             'dateOfBirth' => $request->dateOfBirth,
+            'dwollaCustomerUrl' => $request->dwollaCustomerUrl,
+            'dwollaCustomerId' => $request->dwollaCustomerId,
             'ssn' => $request->ssn,
             'email' => $request->email,
             'password' => Hash::make($request->password),
@@ -50,8 +52,10 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
+        $token = $user->createToken('api-token');
         return response()->json([
-            'message' => 'User created successfully',
+            'user' => $user,
+            'token' => $token->plainTextToken
         ]);
     }
 }

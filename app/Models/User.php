@@ -7,6 +7,7 @@ use App\Models\Ticket;
 use App\Models\Account;
 use App\Models\NextOfKin;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\ExternalBankAccount;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -60,6 +61,11 @@ class User extends Authenticatable
     public function accounts()
     {
         return $this->hasMany(Account::class);
+    }
+
+    public function externalAccounts()
+    {
+        return $this->hasMany(ExternalBankAccount::class);
     }
 
     public function tickets()

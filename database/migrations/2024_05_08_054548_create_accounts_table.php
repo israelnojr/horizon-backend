@@ -20,8 +20,6 @@ return new class extends Migration
             $table->boolean('status')->default(true);
             $table->boolean('is_shielded')->default(true);
             $table->boolean('hasOfficer')->default(false);
-            $table->timestamps();
-
             $table->index('user_id');
         });
     }
